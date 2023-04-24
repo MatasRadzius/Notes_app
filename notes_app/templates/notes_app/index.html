@@ -1,0 +1,274 @@
+{% extends 'notes_app/base.html' %}
+
+{% block content %}
+<div class="header">
+  <h1>My Notes App</h1>
+
+  <!-- Search form -->
+  <form method="GET" action="{% url 'notes_app:index' %}" class="search-form">
+    <input type="text" name="search" placeholder="Search notes" value="{{ search_query }}">
+    <input type="submit" value="Search">
+</form>
+  <div class="header-links">
+      <a href="{% url 'notes_app:create_note' %}" class="button">Create a New Note</a>
+      <a href="{% url 'notes_app:create_category' %}" class="button">Create a New Category</a>
+      <a href="{% url 'notes_app:categories' %}" class="button">Edit/Delete Categories</a>
+  </div>
+</div>
+
+<!-- Category filter and Notes list -->
+<div class="note-form">
+    <!-- Category filter -->
+    {% if categories %}
+    <h3 class="filter" >Filter by category:</h3>
+    <ul class="category-filter">
+        <li><a href="{% url 'notes_app:index' %}">All</a></li>
+        {% for category in categories %}
+        <li><a href="?category={{ category.id }}" {% if category_filter == category.id|stringformat:"i" %} class="selected"
+                {% endif %}>{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Notes list -->
+    <div class="notes-grid">
+      {% if notes %}
+      {% for note in notes %}
+      <div class="note-card">
+        <h3 class="note-title" >
+          <a class="card-title" href="{% url 'notes_app:note_detail' note.id %}">{{ note.title }}</a>
+        </h3>
+          <div class="note-text">
+              {% if note.image %}
+              <img src="{{ note.image.url }}" alt="{{ note.title }}" class="note-image">
+              {% endif %}
+              <p>{{ note.text }}</p>
+          </div>
+          <div class="note-actions">
+              <a href="{% url 'notes_app:edit_note' note.id %}" class="edit-button">Edit</a>
+              <a href="{% url 'notes_app:delete_note' note.id %}" class="delete-button">Delete</a>
+          </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p>No notes found.</p>
+      {% endif %}
+  </div>
+</div>
+
+<style>
+  .card-title{
+    margin: 0;
+    text-decoration: none;
+    color: #007bff;
+    
+
+}
+  .filter{
+    margin: 0;
+}
+  .button {
+    margin-top: 15px;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+  .button:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+}
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+}
+
+  .header-links {
+  display: flex;
+  gap: 10px;
+}
+
+  .header a {
+    text-decoration: none;
+}
+
+  body {
+    height: 100vh;
+    font-family: Roboto, sans-serif;
+    background: rgb(34, 193, 195);
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+  .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      width: 100%;
+  }
+  
+  .note-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 1500px;
+    max-width: 1800px;
+  }
+  .note-card {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 500px;
+}
+
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 30px;
+    width: 100%;
+    padding: 0;
+}
+
+  .note-image {
+  
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+  .category-filter {
+    list-style-type: none;
+    padding: 0;
+}
+
+  .category-filter li {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+  .category-filter a {
+    display: inline-block;
+    padding: 5px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+  .category-filter a.selected,
+  .category-filter a:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+}
+  .header a{
+  display: block;
+}
+  .note-title {
+  text-align: center;
+  margin: 3px 0 3px 0 ;
+  
+}
+
+.note-text {
+  word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    max-height: 350px; /* adjust this value if needed */
+    padding-right: 10px;
+}
+
+ .note-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+  background-color: rgb(235, 235, 235);
+  border-radius: 15px;
+  display: flex;
+  gap: 10px;
+  
+}
+
+  .edit-button,
+  .delete-button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  margin: 8px
+}
+
+  .edit-button {
+  background-color:#6c757d;
+}
+
+  .delete-button {
+  background-color: #dc3545;
+}
+
+  .edit-button:hover {
+  background-color: #5b6268;
+}
+
+  .delete-button:hover {
+  background-color: #d51c2f;
+  
+}
+.card-title:hover {
+  color: #044d9b;
+  text-decoration: underline;
+  
+}
+
+ /* Add this to the existing CSS */
+ .search-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.search-form input[type="submit"] {
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-form input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+</style>
+{% endblock %}

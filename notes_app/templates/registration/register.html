@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<h2>Register for my Notes App</h2>
+{% if form.errors %}
+<p>Please correct the errors below:</p>
+<ul>
+  {% for field in form %}
+  {% for error in field.errors %}
+  <li>{{ field.label }}: {{ error }}</li>
+  {% endfor %}
+  {% endfor %}
+</ul>
+{% endif %}
+<form method="post" class="login-form">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <td>{{ form.username.label_tag }}</td>
+      <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.email.label_tag }}</td>
+      <td>{{ form.email }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.password1.label_tag }}</td>
+      <td>{{ form.password1 }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.password2.label_tag }}</td>
+      <td>{{ form.password2 }}</td>
+    </tr>
+  </table>
+  <input type="submit" value="Register" />
+  <p>Already have an account? <a href="{% url 'notes_app:login' %}">Login</a></p>
+  <input type="hidden" name="next" value="{{ next }}" />
+</form>
+<style>
+  /* Center the login form */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  /* Add some padding around the form elements */
+  .login-form input[type="text"],
+  .login-form input[type="email"],
+  .login-form input[type="password"] {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+
+  }
+
+  /* Style the submit button */
+  .login-form input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* Add some space between the submit button and the login link */
+  .login-form input[type="submit"]+p {
+    margin-top: 10px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+
+  /* Style the login link */
+  .login-form a {
+    color: #007bff;
+  }
+
+  /* Center the h2 element */
+  h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Roboto, sans-serif;
+    background: rgb(34, 193, 195);
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    font-size: 20px;
+  }
+</style>
+{% endblock %}

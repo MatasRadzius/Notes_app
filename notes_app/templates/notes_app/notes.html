@@ -1,0 +1,15 @@
+{% extends 'notes_app/base.html' %}
+
+{% block content %}
+<h2>Notes</h2>
+<a href="{% url 'notes_app:create_note' %}" class="btn btn-primary">Create Note</a>
+<br><br>
+<ul>
+    {% for note in notes %}
+    <li>{{ note.name }} - {{ note.text }}</li>
+    {% empty %}
+    <li>No notes found.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

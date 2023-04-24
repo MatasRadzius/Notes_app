@@ -1,0 +1,94 @@
+{% extends 'notes_app/base.html' %}
+
+{% block content %}
+<div class="note-form">
+    <h2>Categories</h2>
+    <a href="{% url 'notes_app:index' %}" class="back-button">Back to main page</a>
+    <ul>
+        {% for category in categories %}
+        <li>{{ category.name }}
+            <a href="{% url 'notes_app:edit_category' category.id %}" class="button edit-button">Edit</a>
+            <a href="{% url 'notes_app:delete_category' category.id %}" class="button delete-button">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        font-family: Roboto, sans-serif;
+        background: rgb(34, 193, 195);
+        background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+        font-size: 20px;
+    }
+
+    .note-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .note-form a {
+        margin-left: 5px;
+        margin-right: 5px;
+        text-decoration: none;
+    }
+
+   
+
+    .note-form ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .note-form li {
+        margin-bottom: 10px;
+    }
+
+    a.edit-button,
+    a.delete-button {
+        display: inline-block;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-left: 5px;
+        color: white;
+    }
+
+    .edit-button {
+        background-color: #6c757d;
+    }
+
+    .delete-button {
+        background-color: #dc3545;
+    }
+
+    .edit-button:hover,
+    .delete-button:hover {
+        opacity: 0.8;
+    }
+    .back-button {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-bottom: 15px;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
