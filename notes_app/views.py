@@ -17,7 +17,7 @@ def register(request):
 
 class RegisterView(CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy('notes_app:index')  # Redirect to welcome instead of index
+    success_url = reverse_lazy('notes_app:index')  
     template_name = 'registration/register.html'
 
     def form_valid(self, form):
@@ -77,12 +77,12 @@ def delete_category(request, category_id):
 @login_required
 def create_note(request):
     if request.method == "POST":
-        form = NoteForm(request.POST, request.FILES)  # Add request.FILES
+        form = NoteForm(request.POST, request.FILES)  
         if form.is_valid():
             note = form.save(commit=False)
             note.user = request.user
             note.save()
-            return redirect('notes_app:index')  # Redirect to welcome instead of notes
+            return redirect('notes_app:index')  
     else:
         form = NoteForm()
     return render(request, 'notes_app/create_note.html', {'form': form})
@@ -98,7 +98,7 @@ def edit_note(request, note_id):
             note = form.save(commit=False)
             note.user = request.user
             note.save()
-            return redirect(reverse('notes_app:index')) # use reverse to generate URL
+            return redirect(reverse('notes_app:index')) 
     else:
         form = NoteForm(instance=note)
 
@@ -110,7 +110,7 @@ def delete_note(request, pk):
 
     if request.method == 'POST':
         note.delete()
-        return redirect('notes_app:index')  # Replace 'index' with the correct namespaced view name 'notes_app:index'
+        return redirect('notes_app:index')  
 
     return render(request, 'notes_app/delete_note.html', {'note': note})
 

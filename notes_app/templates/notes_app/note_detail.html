@@ -90,7 +90,7 @@
     <div class="button-container">
         <a href="{% url 'notes_app:index' %}">Back to main page</a>
 
-        <!-- Add delete button -->
+      
         <form action="{% url 'notes_app:delete_note' note.id %}" method="post" style="display: inline;">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">Delete Note</button>
